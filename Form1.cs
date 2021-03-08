@@ -81,9 +81,12 @@ namespace CalculaVendaGames
                 if (hasHead && hasBody)
                 {
                     string spanID = "ctl00_M_lblToAmount";
+
                     /// DEPRECATED
                     //var query = $"//span[@id='{spanID}']";
                     //var node = htmlDoc.DocumentNode.SelectSingleNode(query);
+
+                    // Pegando Elemento HTML diretamente pelo ID
                     string strDol2Real = htmlDoc.GetElementbyId(spanID).InnerText;
 
                     dolar2Real = float.Parse(strDol2Real);
