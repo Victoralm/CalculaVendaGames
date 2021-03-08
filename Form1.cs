@@ -312,11 +312,10 @@ namespace CalculaVendaGames
                 txtQntCpVnd.ForeColor = Color.Red;
                 MessageBox.Show($"Por favor, entre somente com números.\nEx: 3250", $"Valor inválido", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtQntCpVnd.Focus();
+                return;
             }
-            else
-            {
-                txtQntCpVnd.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-            }
+
+            txtQntCpVnd.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
         }
     }
 }
