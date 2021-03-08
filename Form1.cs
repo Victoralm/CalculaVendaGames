@@ -64,7 +64,7 @@ namespace CalculaVendaGames
         /// Faz webscraping para obter o valor de conversão do dólar
         /// </summary>
         /// <returns>Um float para setar o valor de conversão do dólar</returns>
-        public float WebScrap()
+        private float WebScrap()
         {
             var html = @"https://pt.exchange-rates.org/converter/USD/BRL/1";
 
@@ -297,11 +297,10 @@ namespace CalculaVendaGames
                 txtValCpDol.ForeColor = Color.Red;
                 MessageBox.Show($"Por favor, entre somente com números e muma vírgula.\nEx: 19,99", $"Valor inválido", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtValCpDol.Focus();
+                return;
             }
-            else
-            {
-                txtValCpDol.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-            }
+
+            txtValCpDol.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
         }
 
         private void txtQntCpVnd_Validating(object sender, CancelEventArgs e)
