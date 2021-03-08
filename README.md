@@ -22,3 +22,4 @@ MultiThreading e WebScraping
 
 -   ### Validação de TextBoxes:
     -   Ambos os controls de entrada validam seus valores quando perdem o foco
+        para outro control
