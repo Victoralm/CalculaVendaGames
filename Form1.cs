@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HtmlAgilityPack;
+using System;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HtmlAgilityPack;
 
 namespace CalculaVendaGames
 {
@@ -60,6 +53,25 @@ namespace CalculaVendaGames
             });
         }
 
+        private float ReturnFloatReal(HtmlAgilityPack.HtmlDocument htmlDoc)
+        {
+            try
+            {
+                string cssClass = "single-conversions";
+                var elements = htmlDoc.DocumentNode.SelectNodes($"//div[contains(@class, '{cssClass}')]//span");
+                var dol2Real = elements.Count > 0 ? elements[0].InnerHtml.Split("=") : null;
+                var dol2RealFormated = dol2Real[1].Split(" ")[1].Replace(",", ".");
+                var dol2RealParsed = float.Parse(dol2RealFormated, CultureInfo.InvariantCulture.NumberFormat);
+
+                return dol2RealParsed;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", $"Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
         /// <summary>
         /// Faz webscraping para obter o valor de conversão do dólar
         /// </summary>
@@ -78,23 +90,11 @@ namespace CalculaVendaGames
                 bool hasHead = htmlDoc.DocumentNode.SelectSingleNode("html/head") != null;
                 bool hasBody = htmlDoc.DocumentNode.SelectSingleNode("html/body") != null;
 
+
                 if (hasHead && hasBody)
-                {
-                    string spanID = "ctl00_M_lblToAmount";
-
-                    /// DEPRECATED
-                    //var query = $"//span[@id='{spanID}']";
-                    //var node = htmlDoc.DocumentNode.SelectSingleNode(query);
-
-                    // Pegando Elemento HTML diretamente pelo ID
-                    string strDol2Real = htmlDoc.GetElementbyId(spanID).InnerText;
-
-                    dolar2Real = float.Parse(strDol2Real);
-                }
+                    dolar2Real = this.ReturnFloatReal(htmlDoc);
                 else
-                {
                     MessageBox.Show($"Erro ao obter o valor do dólar online.\nPor favor, verifique sua conexão de internet.");
-                }
             }
             catch (Exception ex)
             {
